@@ -31,6 +31,7 @@ from aggregate6 import aggregate
 from ipaddress import ip_network
 
 import argparse
+import collections
 import json
 import pprint
 import requests
@@ -72,7 +73,7 @@ ip community-list expanded rpki permit 65000:[123]
 !""")
     data = dict()
     data['vrps'] = load_vrp_list(validator_export)
-    data['origins'] = {}
+    data['origins'] = collections.defaultdict(set)
 
     covered_space = set()
 
@@ -82,10 +83,7 @@ ip community-list expanded rpki permit 65000:[123]
             entry = vrp['prefix']
         else:
             entry = "{} le {}".format(vrp['prefix'], vrp['maxlen'])
-        if vrp['origin'] in data['origins'].keys():
-            data['origins'][vrp['origin']].add(entry)
-        else:
-            data['origins'][vrp['origin']] = set([entry])
+        data['origins'][vrp['origin']].add(entry)
 
     print("no ip prefix-list rpki-covered-space-v4")
 
@@ -93,30 +91,29 @@ ip community-list expanded rpki permit 65000:[123]
         print("ip prefix-list rpki-covered-space-v4 permit {} le 32".format(i))
     print("!")
 
-    for origin in data['origins'].keys():
+    for origin, prefixes in data['origins'].items():
         if origin == 0:
             continue
         print("!")
         print("no ip prefix-list rpki-origin-AS{}".format(origin))
-        for entry in data['origins'][origin]:
+        for prefix in prefixes:
             print("ip prefix-list rpki-origin-AS{} permit {}".format(origin,
-                                                                     entry))
+                                                                     prefix))
         print("!")
         print("no ip as-path access-list {}".format(origin))
         print("ip as-path access-list {} permit _{}$".format(origin, origin))
 
-
     print("""!
 ! test whether BGP NLIR is covered by RPKI ROA or not
 route-map rpki-ov permit 1
-  match ip address prefix-list rpki-covered-space-v4
-  set ip community-list rpki delete
-  continue 3
+ match ip address prefix-list rpki-covered-space-v4
+ set comm-list rpki delete
+ continue 3
 !
 ! BGP announcement is not covered by RPKI ROA, mark as not-found and exit
 route-map rpki-ov permit 2
-  set comm-list rpki delete
-  set community 65000:0 additive
+ set comm-list rpki delete
+ set community 65000:0 additive
 !
 ! find RPKI valids""")
 
@@ -127,9 +124,9 @@ route-map rpki-ov permit 2
             continue
         print("!")
         print("route-map rpki-ov permit {}".format(n))
-        print("  match ip prefix-list rpki-origin-AS{}".format(origin))
-        print("  match ip as-path {}".format(origin))
-        print("  set community 65000:1")
+        print(" match ip prefix-list rpki-origin-AS{}".format(origin))
+        print(" match as-path {}".format(origin))
+        print(" set community 65000:1")
         n += 1
 
     print("!")
