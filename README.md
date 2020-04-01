@@ -40,5 +40,17 @@ attempts to offer a workaround for `route-map` oriented BGP implementations.
 $ rpki-ov-route-map > route-map-configuration.txt
 ```
 
+Then use `TFTP` or some other copying mechanism to upload the resulting file
+to the BGP router, and copy the file into the `running-config`. Subsequently you
+can associate `route-map rpki-ov` with the EBGP ingress policy of the peer.
+
+```
+router bgp 65000
+  neighbor x.x.x.x remote-as 65123
+  neighbor x.x.x.x route-map rpki-ov in
+```
+
+Copyright
+---------
 
 Copyright (c) April 1st, 2020 Job Snijders <job@instituut.net>
