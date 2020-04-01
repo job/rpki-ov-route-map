@@ -20,6 +20,6 @@ attempts to offer a workaround for `route-map` oriented BGP implementations.
 $ rpki-ov-route-map > route-map-configuration.txt
 ```
 
-An example `route-map` configuration is available [here](/job/rpki-ov-route-map/blob/master/example-route-map-configuration.txt)
+An example `route-map` configuration is available [here](https://raw.githubusercontent.com/job/rpki-ov-route-map/master/example-route-map-configuration.txt)
 
 Copyright (c) 2020 Job Snijders <job@instituut.net>
