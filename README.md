@@ -50,7 +50,10 @@ router bgp 65000
   neighbor x.x.x.x route-map rpki-ov in
 ```
 
+But honestly, use of this software for any purpose other than entertainment is
+not recommended.
+
 Copyright
 ---------
 
-Copyright (c) April 1st, 2020 Job Snijders <job@instituut.net>
+Copyright (c) April 1st, 2020 Job Snijders <job@instituut.net>, Ben Maddison <benm@workonline.africa>
