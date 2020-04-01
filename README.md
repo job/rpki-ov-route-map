@@ -4,6 +4,15 @@ Implementation of RPKI Origin Validation in route-map
 A substitute for the RTR protocol: generate configuration blobs for your
 routers instead of using the RTR protocol to interact with RPKI.
 
+The generated `route-map` configuration will first check whether the BGP route
+announced and passed through the `route-map` is covered by a RPKI ROA or not,
+if not it will mark the route as `not-found` using the `65000:0` BGP community.
+
+If the route _was_ covered by a RPKI ROA, the `route-map` proceeds to match
+the announcement against each authorised (Prefix, Origin AS) tuple to see
+if any RPKI ROA can make the BGP announcement valid. If there is no match, the
+annnouncement is RPKI Invalid and will be rejected.
+
 Installation
 ------------
 

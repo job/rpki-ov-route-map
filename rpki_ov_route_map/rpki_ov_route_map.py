@@ -137,7 +137,7 @@ route-map rpki-ov permit 2
         n += 1
 
     print("!")
-    print("! deny RPKI Invalid BGP announcements")
+    print("! Reject RPKI Invalid BGP announcements")
     print("route-map rpki-ov deny {}".format(n))
 
 # phase 3 reject invalids
