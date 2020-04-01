@@ -62,11 +62,11 @@ def main():
     print("""!
 ip bgp-community new-format
 no ip community-list rpki-not-found
-ip community-list expanded rpki-not-found permit 65000:0
+ip community-list standard rpki-not-found permit 65000:0
 no ip community-list rpki-valid
-ip community-list expanded rpki-valid permit 65000:1
+ip community-list standard rpki-valid permit 65000:1
 no ip community-list rpki-invalid
-ip community-list expanded rpki-invalid permit 65000:2
+ip community-list standard rpki-invalid permit 65000:2
 no ip community-list rpki
 ip community-list expanded rpki permit 65000:[123]
 !""")
