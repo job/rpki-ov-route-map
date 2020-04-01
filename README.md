@@ -13,10 +13,21 @@ the announcement against each authorised (Prefix, Origin AS) tuple to see
 if any RPKI ROA can make the BGP announcement valid. If there is no match, the
 annnouncement is RPKI Invalid and will be rejected.
 
+Example
+-------
+
+An example generated `route-map` configuration is available [here](https://raw.githubusercontent.com/job/rpki-ov-route-map/master/example-route-map-configuration.txt).
+
 Installation
 ------------
 
-`pip3 install rpki-ov-route-map`
+```
+git clone https://github.com/job/rpki-ov-route-map
+cd rpki-ov-route-map
+python3 -m venv .venv
+. .venv/bin/activate
+pip3 install -e .
+```
 
 Use
 ---
@@ -29,6 +40,5 @@ attempts to offer a workaround for `route-map` oriented BGP implementations.
 $ rpki-ov-route-map > route-map-configuration.txt
 ```
 
-An example `route-map` configuration is available [here](https://raw.githubusercontent.com/job/rpki-ov-route-map/master/example-route-map-configuration.txt)
 
-Copyright (c) 2020 Job Snijders <job@instituut.net>
+Copyright (c) April 1st, 2020 Job Snijders <job@instituut.net>
