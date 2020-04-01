@@ -28,15 +28,11 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 from aggregate6 import aggregate
-from collections import OrderedDict
 from ipaddress import ip_network
-from operator import itemgetter
 
 import argparse
 import json
-import os
 import pprint
-import radix
 import requests
 import rpki_ov_route_map
 import sys
